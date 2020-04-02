@@ -2,7 +2,7 @@ trigger:
 - '*'
 
 variables:
-  buildConfiguration: 'releasee'
+  buildConfiguration: 'Release'
   releaseBranchName: 'release'
 
 stages:
