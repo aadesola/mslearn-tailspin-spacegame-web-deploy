@@ -9,7 +9,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+<<<<<<< HEAD
 using Tailspin.SpaceGame.Web;
+=======
+>>>>>>> a274cca0c362da3aecfe933fe88172606ac046cb
 using TailSpin.SpaceGame.Web.Models;
 
 namespace TailSpin.SpaceGame.Web
@@ -34,8 +37,14 @@ namespace TailSpin.SpaceGame.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+<<<<<<< HEAD
             // Add document store. This are passed to the HomeController constructor.
             services.AddSingleton<IDocumentDBRepository>(new RemoteDBRepository(Configuration));
+=======
+            // Add document stores. These are passed to the HomeController constructor.
+            services.AddSingleton<IDocumentDBRepository<Score>>(new LocalDocumentDBRepository<Score>(@"SampleData/scores.json"));
+            services.AddSingleton<IDocumentDBRepository<Profile>>(new LocalDocumentDBRepository<Profile>(@"SampleData/profiles.json"));
+>>>>>>> a274cca0c362da3aecfe933fe88172606ac046cb
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

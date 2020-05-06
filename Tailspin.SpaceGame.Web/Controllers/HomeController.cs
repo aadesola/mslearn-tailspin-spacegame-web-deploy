@@ -51,11 +51,31 @@ namespace TailSpin.SpaceGame.Web.Controllers
 
             try
             {
+<<<<<<< HEAD
+=======
+                // Form the query predicate.
+                // This expression selects all scores that match the provided game 
+                // mode and region (map).
+                // Select the score if the game mode or region is empty.
+                Expression<Func<Score, bool>> queryPredicate = score =>
+                    (string.IsNullOrEmpty(mode) || score.GameMode == mode) &&
+                    (string.IsNullOrEmpty(region) || score.GameRegion == region);
+
+>>>>>>> a274cca0c362da3aecfe933fe88172606ac046cb
                 // Fetch the total number of results in the background.
                 var countItemsTask = _dbRespository.CountScoresAsync(mode, region);
 
                 // Fetch the scores that match the current filter.
+<<<<<<< HEAD
                 IEnumerable<Score> scores = await _dbRespository.GetScoresAsync(mode, region, page, pageSize);
+=======
+                IEnumerable<Score> scores = await _scoreRepository.GetItemsAsync(
+                    queryPredicate, // the predicate defined above
+                    score => score.HighScore, // sort descending by high score
+                    page - 1, // subtract 1 to make the query 0-based
+                    pageSize
+                  );
+>>>>>>> a274cca0c362da3aecfe933fe88172606ac046cb
 
                 // Wait for the total count.
                 vm.TotalResults = await countItemsTask;
@@ -65,7 +85,11 @@ namespace TailSpin.SpaceGame.Web.Controllers
                 var profiles = new List<Task<Profile>>();
                 foreach (var score in scores)
                 {
+<<<<<<< HEAD
                     profiles.Add(_dbRespository.GetProfileAsync(score.ProfileId));
+=======
+                    profiles.Add(_profileRespository.GetItemAsync(score.ProfileId));
+>>>>>>> a274cca0c362da3aecfe933fe88172606ac046cb
                 }
                 Task<Profile>.WaitAll(profiles.ToArray());
 

@@ -3,6 +3,10 @@ trigger:
 
 variables:
   buildConfiguration: 'Release'
+<<<<<<< HEAD
+=======
+  dotnetSdkVersion: '3.1.100'
+>>>>>>> a274cca0c362da3aecfe933fe88172606ac046cb
 
 stages:
 - stage: 'Build'
@@ -57,7 +61,11 @@ stages:
       displayName: 'Publish the project - $(buildConfiguration)'
       inputs:
         command: 'publish'
+<<<<<<< HEAD
         projects: '**/*.csproj'
+=======
+        projects: '$(System.DefaultWorkingDirectory)/**/Tailspin.SpaceGame.Web.csproj' 
+>>>>>>> a274cca0c362da3aecfe933fe88172606ac046cb
         publishWebProjects: false
         arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
         zipAfterPublish: true
@@ -65,6 +73,7 @@ stages:
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: drop
 
+<<<<<<< HEAD
   - job: BuildDacpac
     pool:
       vmImage: 'windows-2019'
@@ -166,6 +175,11 @@ stages:
 - stage: 'Dev'
   displayName: 'Deploy to the dev environment'
   dependsOn: DBAVerificationApply
+=======
+- stage: 'Dev'
+  displayName: 'Deploy to the dev environment'
+  dependsOn: Build
+>>>>>>> a274cca0c362da3aecfe933fe88172606ac046cb
   jobs:
   - deployment: Deploy
     pool:
@@ -208,6 +222,34 @@ stages:
               azureSubscription: 'Resource Manager - Tailspin - Space Game'
               appName: '$(WebAppNameTest)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+<<<<<<< HEAD
+=======
+  - job: RunUITests
+    dependsOn: Deploy
+    displayName: 'Run UI tests'
+    pool:
+      vmImage: 'windows-2019'
+    variables:
+    - group: 'Release'
+    steps: 
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core SDK $(dotnetSdkVersion)'
+      inputs:
+        version: '$(dotnetSdkVersion)'
+    - task: DotNetCoreCLI@2
+      displayName: 'Build the project - $(buildConfiguration)'
+      inputs:
+        command: 'build'
+        arguments: '--configuration $(buildConfiguration)'
+        projects: '$(System.DefaultWorkingDirectory)/**/*UITests.csproj'
+    - task: DotNetCoreCLI@2
+      displayName: 'Run unit tests - $(buildConfiguration)'
+      inputs:
+        command: 'test'
+        arguments: '--no-build --configuration $(buildConfiguration)'
+        publishTestResults: true
+        projects: '$(System.DefaultWorkingDirectory)/**/*UITests.csproj'
+>>>>>>> a274cca0c362da3aecfe933fe88172606ac046cb
 
 - stage: 'Staging'
   displayName: 'Deploy to the staging environment'
@@ -230,4 +272,8 @@ stages:
             inputs:
               azureSubscription: 'Resource Manager - Tailspin - Space Game'
               appName: '$(WebAppNameStaging)'
+<<<<<<< HEAD
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+=======
+              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+>>>>>>> a274cca0c362da3aecfe933fe88172606ac046cb
