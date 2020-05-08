@@ -9,7 +9,7 @@ using TailSpin.SpaceGame.Web.Models;
 
 namespace TailSpin.SpaceGame.Web.Controllers
 {
-    public class HomeController : Controller
+    public class  HomeController : Controller
     {
         private readonly IDocumentDBRepository _dbRespository;
         public HomeController(IDocumentDBRepository dbRepository)
